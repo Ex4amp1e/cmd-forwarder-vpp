@@ -1,5 +1,5 @@
 ARG VPP_VERSION=v23.10-rc0-170-g806b14eeb
-FROM ghcr.io/networkservicemesh/govpp/vpp:${VPP_VERSION} as go
+FROM ex4ample/govpp:vpp-v24.06-0.8 as go
 COPY --from=golang:1.23.1 /usr/local/go/ /go
 ENV PATH ${PATH}:/go/bin
 ENV GO111MODULE=on
@@ -32,7 +32,7 @@ FROM test as debug
 WORKDIR /build/internal/tests/
 CMD dlv -l :40000 --headless=true --api-version=2 test -test.v .
 
-FROM ghcr.io/networkservicemesh/govpp/vpp:${VPP_VERSION} as runtime
+FROM ex4ample/govpp:vpp-v24.06-0.8 as runtime
 RUN apt-get update
 RUN apt install -f -y libbpf-dev
 COPY --from=build /bin/forwarder /bin/forwarder
